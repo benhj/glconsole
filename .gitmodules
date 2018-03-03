@@ -1,0 +1,3 @@
+[submodule "glfreetype"]
+	path = glfreetype
+	url = https://github.com/benhj/glfreetype
