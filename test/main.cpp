@@ -26,7 +26,7 @@ int main(int argc, char **argv)
     glfwWindowHint(GLFW_SAMPLES, 4);
     int windowWidth = 300;
     int windowHeight = 300;
-    window = glfwCreateWindow(windowWidth, windowHeight, "glfreetype test", NULL, NULL);
+    window = glfwCreateWindow(windowWidth, windowHeight, "GLConsole test", NULL, NULL);
     if (!window) {
         glfwTerminate();
         return -1;
@@ -49,10 +49,10 @@ int main(int argc, char **argv)
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        glClearColor(255.0, 255.0, 255.0, 0.0);
+        glClearColor(0, 0, 0, 0.0);
 
         // Blue text
-        glColor3ub(0,0,0xff);
+        glColor3ub(0,0xff,0);
         testConsolePtr->display();
 
         /* Swap front and back buffers */
