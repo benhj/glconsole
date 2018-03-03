@@ -1,11 +1,17 @@
-// Hacky test
+// This 'ere software is hacky as fuck. Use at your peril.
+// I'd appreciate a mention if you do. But if you don't,
+// I'm not going to lose sleep over it.
+// Ben H.D. Jones in the year of 2018
 
 #include "glconsole/GLConsole.hpp"
 #include <GLFW/glfw3.h>
 #include <memory>
 
+// Store the GLConsole that does the drawing of the
+// actual text
 std::shared_ptr<glconsole::GLConsole> testConsolePtr;
 
+// The GLFW keyboard handler for drawing entered text
 void keyboardHandler(GLFWwindow *, int key, int scancode, int action, int mods) 
 { 
     if(testConsolePtr) {
@@ -24,7 +30,7 @@ int main(int argc, char **argv)
     }
 
     glfwWindowHint(GLFW_SAMPLES, 4);
-    int windowWidth = 300;
+    int windowWidth = 600;
     int windowHeight = 300;
     window = glfwCreateWindow(windowWidth, windowHeight, "GLConsole test", NULL, NULL);
     if (!window) {

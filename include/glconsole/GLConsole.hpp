@@ -10,6 +10,7 @@
 #include <OpenGL/glu.h>
 #include <GLFW/glfw3.h>
 #include <cctype>
+#include <functional>
 #include <sstream>
 
 namespace glconsole {
@@ -29,6 +30,8 @@ namespace glconsole {
           , m_buffer()
           , m_linesCommitted()
           , m_prompt(">> |")
+          , m_commandBegin(4)
+          , m_commandEnd(4)
         {
             m_font.init(fontPath.c_str(), fontSize);
 
@@ -43,6 +46,11 @@ namespace glconsole {
             std::stringstream ss;
             glfreetype::print(m_font, m_x, m_y, m_buffer.str());
             glPopMatrix();
+        }
+
+        void setCallback(std::function<void(std::string const &)> const & callback)
+        {
+            m_callback = callback;
         }
 
         void keyHandler(int const key, 
@@ -80,13 +88,35 @@ namespace glconsole {
 
                             // ...finishing with the '|' char.
                             m_buffer << casedChar << '|';
+
+                            // Store where we are in the buffer
+                            // for figuring out the entered command.
+                            ++m_commandEnd;
                         } else {
+
+                            auto beforeNewLine = m_buffer.str();
+
                             // New line
                             m_buffer << "\n"  << m_prompt;
 
                             // Store buffer so far (in aid of
                             // a bug-free backspace process).
                             m_linesCommitted = m_buffer.str();
+
+                            // Parse out the entered text
+                            std::string parsedCommand(std::begin(beforeNewLine) +
+                                                      m_commandBegin - 1,
+                                                      std::begin(beforeNewLine) +
+                                                      m_commandEnd);
+                            
+                            // Trigger the callback if one has been set.
+                            if(m_callback) {
+                                m_callback(parsedCommand);
+                            }
+
+                            // Reset integer iterators
+                            m_commandBegin = m_linesCommitted.length();
+                            m_commandEnd = m_commandBegin;
                         }
                     }
                 } else {
@@ -120,6 +150,13 @@ namespace glconsole {
         /// The actual prompt, hardcoded to ">>"
         std::string m_prompt;
 
+        /// Store command position
+        int m_commandBegin;
+        int m_commandEnd;
+
+        /// The callback that will be triggered on enter.
+        std::function<void(std::string const &)> m_callback;
+
         /// Does what it sayd.
         void handleBackspace()
         {
@@ -135,6 +172,7 @@ namespace glconsole {
                    after.length() >= m_linesCommitted.length() - 1) {
                     m_buffer.str("");
                     m_buffer << after << "|";
+                    --m_commandEnd;
                 }
             }
         }
