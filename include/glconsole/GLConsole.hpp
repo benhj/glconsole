@@ -138,6 +138,17 @@ namespace glconsole {
             }
         }
 
+        bool mouseIsOver(int const x, int const y) const
+        {
+            if (!(x >= m_x - m_width && 
+                 x <= m_x + m_width &&
+                 y <= m_y &&
+                 y >= m_height)) {
+                return true;
+            }
+            return false;
+        }
+
       private:
 
         /// Width of text area
