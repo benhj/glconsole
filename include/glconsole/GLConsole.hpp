@@ -40,7 +40,10 @@ namespace glconsole {
         }
 
         void display()
-        {
+        {  
+            glClearColor(0, 0, 0, 0.0);
+            // Green text
+            glColor3ub(0,0xff,0);
             glPushMatrix();
             glLoadIdentity();
             std::stringstream ss;
