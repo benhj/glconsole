@@ -43,8 +43,7 @@ namespace glconsole {
         {  
       
             // draw filled rectangle for background
-            glColor4f(0, 0, 0, 0.5);
-
+            glColor4f(0, 0, 0, 0.75);
             glBegin(GL_TRIANGLES);
                 glVertex2f(m_x - m_width, m_y);
                 glVertex2f(m_x - m_width, m_height);
