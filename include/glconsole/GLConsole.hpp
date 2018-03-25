@@ -41,11 +41,22 @@ namespace glconsole {
 
         void display()
         {  
-            glClearColor(0, 0, 0, 0.0);
+      
+            // draw filled rectangle for background
+            glColor4f(0, 0, 0, 0.5);
+
+            glBegin(GL_TRIANGLES);
+                glVertex2f(m_x - m_width, m_y);
+                glVertex2f(m_x - m_width, m_height);
+                glVertex2f(m_x + m_width, m_y);
+                glVertex2f(m_x + m_width, m_y);
+                glVertex2f(m_x - m_width, m_height);
+                glVertex2f(m_x + m_width, m_height);
+            glEnd();
             // Green text
-            glColor3ub(0,0xff,0);
             glPushMatrix();
             glLoadIdentity();
+            glColor3ub(0,0xff,0);
             std::stringstream ss;
             glfreetype::print(m_font, m_x, m_y, m_buffer.str());
             glPopMatrix();
